@@ -3,6 +3,14 @@
 ## Overview
 Now that you have covered creating a testing suite, we can use the key principles of test-driven development to work with an existing app. Normally, you would build the testing while developing, but you were recently brought onto this project to add a testing suite! You are working to implement a testing suite for a banking application that allows users to track their expenditures by submitting and searching through them.
 
+## Application features
+- Transactions load from the JSON Server backend when the app starts.
+- Users can add transactions, search across transaction details, and sort by description or category.
+- Vitest and React Testing Library suites cover initial display, transaction submission, search updates, and sorting.
+
+## Running the application and tests
+Install dependencies with `npm install`, then run `npm run server` and `npm run dev` in separate terminals. Run the test suites with `npm test -- --run`.
+
 ## Task 1: Define the Problem
 - Build a testing suite for an existing application.
 
@@ -92,4 +100,3 @@ Before we begin coding, let's complete the initial setup for this lesson:
 - The application tests if transactions display on load.
 - The application tests if a new transaction can be added.
 - The application tests if search functionality updates the page correctly.
-

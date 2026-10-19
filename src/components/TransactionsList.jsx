@@ -21,9 +21,6 @@ function TransactionsList({transactions}) {
           <th>
             <h3 className="ui center aligned header">Amount</h3>
           </th>
-          <th>
-            <h3 className="ui center aligned header">DELETE</h3>
-          </th>
         </tr>
         {transactionComponent}
       </tbody>

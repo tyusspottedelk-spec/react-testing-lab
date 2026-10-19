@@ -4,19 +4,21 @@ import Search from "./Search";
 import AddTransactionForm from "./AddTransactionForm";
 import Sort from "./Sort";
 
+const transactionsUrl = import.meta.env.VITE_TRANSACTIONS_URL ?? "http://localhost:6001/transactions"
+
 function AccountContainer() {
   const [transactions,setTransactions] = useState([])
   const [search,setSearch] = useState("")
-  // console.log(search)
+  const [sortBy,setSortBy] = useState("description")
 
   useEffect(()=>{
-    fetch("http://localhost:6001/transactions")
+    fetch(transactionsUrl)
     .then(r=>r.json())
     .then(data=>setTransactions(data))
   },[])
 
   function postTransaction(newTransaction){
-    fetch('http://localhost:6001/transactions',{
+    fetch(transactionsUrl,{
       method: "POST",
       headers:{
         "Content-Type": "application/json"
@@ -24,23 +26,28 @@ function AccountContainer() {
       body: JSON.stringify(newTransaction)
     })
     .then(r=>r.json())
-    .then(data=>setTransactions([...transactions,data]))
-  }
-  
-  // Sort function here
-  function onSort(sortBy){
-    
+    .then(data=>setTransactions(currentTransactions=>[...currentTransactions,data]))
   }
 
-  // Filter using search here and pass new variable down
-  
+  function onSort(sortBy){
+    setSortBy(sortBy)
+  }
+
+  const normalizedSearch = search.trim().toLowerCase()
+  const visibleTransactions = transactions
+    .filter(transaction => Object.values(transaction).some(value =>
+      String(value).toLowerCase().includes(normalizedSearch)
+    ))
+    .sort((first, second) =>
+      String(first[sortBy] ?? "").localeCompare(String(second[sortBy] ?? ""))
+    )
 
   return (
     <div>
       <Search setSearch={setSearch}/>
       <AddTransactionForm postTransaction={postTransaction}/>
       <Sort onSort={onSort}/>
-      <TransactionsList transactions={transactions} />
+      <TransactionsList transactions={visibleTransactions} />
     </div>
   );
 }
